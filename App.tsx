@@ -1,14 +1,11 @@
 import React from "react";
 import AppWrapper from "./src/components/core/AppWrapper";
-import { StatusBar, Text, View } from "react-native";
+import Security from "./src/components/core/Security";
 
 export default function App() {
   return (
     <AppWrapper>
-      <View>
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <StatusBar barStyle="default" />
-      </View>
+      <Security />
     </AppWrapper>
   );
 }
