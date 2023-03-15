@@ -2,36 +2,24 @@ import React, { PropsWithChildren } from "react";
 import {
   SafeAreaView,
   StyleSheet,
-  View,
   StatusBar,
-  Dimensions,
+  View,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 type Props = PropsWithChildren & {
   transparent: boolean,
 }
 
-export default function Template({ transparent, children }: Props) {
-  let tabBarHeight = 0;
-  try {
-    tabBarHeight = useBottomTabBarHeight();
-  } catch (error) {
-    tabBarHeight = 0;
-  }
-
+export default function Template({ children }: Props) {
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAwareScrollView>
-        <View
-          style={{
-            ...styles.wrapper,
-            backgroundColor: transparent ? "none" : "#fff",
-            height: Dimensions.get("window").height - tabBarHeight,
-            marginHorizontal: 20
-          }}
-        >
+      <KeyboardAwareScrollView
+      style={{
+        ...styles.wrapper,
+      }}
+      >
+        <View style={{ flex: 1, minHeight: "100%" }}>
           {children}
         </View>
       </KeyboardAwareScrollView>
@@ -45,7 +33,7 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight,
   },
   wrapper: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flex: 1,
+    paddingHorizontal: 20,
   },
 });
