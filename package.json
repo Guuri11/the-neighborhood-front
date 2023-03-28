@@ -25,16 +25,19 @@
     "mobx": "^6.8.0",
     "mobx-react-lite": "^3.4.0",
     "react": "18.2.0",
-    "react-dom": "^18.2.0",
+    "react-dom": "18.2.0",
     "react-native": "0.71.3",
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-web": "~0.18.11"
+    "react-native-web": "~0.18.11",
+    "expo-image-picker": "~14.1.1",
+    "@react-native-picker/picker": "2.4.8",
+    "@react-native-community/datetimepicker": "6.7.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "~18.0.14",
+    "@types/react": "~18.0.27",
     "@types/react-native": "^0.71.3",
     "typescript": "^4.9.4"
   },

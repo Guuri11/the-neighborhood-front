@@ -9,6 +9,8 @@ class AuthorizationStore implements Resetable {
 
   @observable showIntro: "0" | "1" = "0";
 
+  @observable firstTime: "0" | "1" = "1";
+
   constructor(app: AppStore) {
     makeAutoObservable(this);
     this.appStore = app;
@@ -21,6 +23,11 @@ class AuthorizationStore implements Resetable {
   @action setShowIntro(value: "0" | "1") {
     this.showIntro = value;
     storeData("showIntro", value)
+  }
+
+  @action setIsFirstTime(value: "0" | "1") {
+    this.firstTime = value;
+    storeData("firstTime", value)
   }
 }
 
