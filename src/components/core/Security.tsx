@@ -5,8 +5,6 @@ import LoadingPage from "../design/common/Loading";
 import { useAuthorizationStore, useLocationStore } from "../../hooks/store";
 import OnBoarding from "../router/OnBoarding/OnBoarding";
 import LocationPage from "../router/LocationPage/LocationPage";
-import { Text } from "@rneui/base";
-import SignUp from "../router/Authentication/SignUp";
 
 const Security = observer(() => {
   const authorizationStore = useAuthorizationStore();
@@ -42,10 +40,6 @@ const Security = observer(() => {
 
   if (authorizationStore.showIntro === "1") {
     return <OnBoarding />;
-  }
-
-  if (authorizationStore.firstTime === "1") {
-    return <SignUp />
   }
 
   if (!locationStore.location) {
