@@ -5,6 +5,7 @@ import LoadingPage from "../design/common/Loading";
 import { useAuthorizationStore, useLocationStore } from "../../hooks/store";
 import OnBoarding from "../router/OnBoarding/OnBoarding";
 import LocationPage from "../router/LocationPage/LocationPage";
+import Signup from "../router/Authentication/Signup/Signup";
 
 const Security = observer(() => {
   const authorizationStore = useAuthorizationStore();
@@ -40,6 +41,10 @@ const Security = observer(() => {
 
   if (authorizationStore.showIntro === "1") {
     return <OnBoarding />;
+  }
+
+  if (authorizationStore.firstTime === "1") {
+    return <Signup />
   }
 
   if (!locationStore.location) {

@@ -4,20 +4,15 @@ import { Input } from "@rneui/base";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { UseFormRegister } from 'react-hook-form';
 
-type DatePickerProps = {
-  register: UseFormRegister<any>;
-  name: string;
-};
-
-const DatePicker = ({register, name}: DatePickerProps) => {
+const DatePicker = ({onChange, onBlur, label}) => {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const onChange = (event, selectedDate) => {
+  const handleOnChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
     setDate(currentDate);
-    register(name);
+    onChange()
   };
 
   const showDatepicker = () => {
@@ -27,10 +22,11 @@ const DatePicker = ({register, name}: DatePickerProps) => {
   return (
     <View>
       <Input
-        placeholder="Fecha de nacimiento"
+        placeholder={label}
         onFocus={showDatepicker}
         value={date.toLocaleDateString()}
-        {...register(name)}
+        onBlur={onBlur}
+        
       />
       {showDatePicker && (
         <DateTimePicker
@@ -38,7 +34,7 @@ const DatePicker = ({register, name}: DatePickerProps) => {
           value={date}
           mode="date"
           display="default"
-          onChange={onChange}
+          onChange={handleOnChange}
         />
       )}
     </View>
