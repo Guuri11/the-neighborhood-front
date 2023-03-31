@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    marginTop: 40,
+    margin: 10,
+    marginTop: 50,
     justifyContent: "space-between",
     alignItems: "center",
     maxHeight: "80%"
