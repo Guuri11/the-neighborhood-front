@@ -42,18 +42,16 @@ export default function OnBoarding() {
   };
 
   return (
-    <Template transparent>
-        <AppIntroSlider
-          keyExtractor={(item) => item.key.toString()}
-          renderItem={_renderItem}
-          data={slides}
-          onDone={() => authorizationStore.setShowIntro("0")}
-          onSkip={() => authorizationStore.setShowIntro("0")}
-          activeDotStyle={{ backgroundColor: PRIMARY_COLOR }}
-          bottomButton
-          />
-    </Template>
-  );
+    <AppIntroSlider
+      keyExtractor={(item) => item.key.toString()}
+      renderItem={_renderItem}
+      data={slides}
+      onDone={() => authorizationStore.setShowIntro("0")}
+      onSkip={() => authorizationStore.setShowIntro("0")}
+      activeDotStyle={{ backgroundColor: PRIMARY_COLOR }}
+      bottomButton
+      />
+);
 }
 
 const styles = StyleSheet.create({
@@ -63,10 +61,10 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 40,
     justifyContent: "space-between",
     alignItems: "center",
-    maxHeight: "85%"
+    maxHeight: "80%"
   },
   text: {
     textAlign: "center",
