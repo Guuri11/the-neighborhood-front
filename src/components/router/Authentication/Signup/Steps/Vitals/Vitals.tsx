@@ -1,28 +1,27 @@
-import { Text } from "react-native";
 import React from "react";
-import { Steps } from "../../Signup";
-import { Button, Input } from "@rneui/themed";
-import { Controller, useForm } from "react-hook-form";
+import { FormData, StepProps } from "../../Signup";
+import { Button } from "@rneui/themed";
+import { useForm } from "react-hook-form";
 import { Gender } from "../../../../../../domain/Player";
 import CustomInput from "../../../../../design/common/Form/CustomInput";
 
-type Props = {
-  setStep: React.Dispatch<React.SetStateAction<Steps>>;
-};
-
-type FormData = {
+export type VitalsData = {
   fullName: string;
   userName: string;
   birthDate: string;
   gender: Gender;
 };
 
-const Vitals = ({ setStep }: Props) => {
+type Props = StepProps & {
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  formData: FormData;
+};
+
+const Vitals = ({ setStep, setFormData, formData }: Props) => {
   const {
     control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
+    handleSubmit
+  } = useForm<VitalsData>();
 
   const validateGender = (value: string) => {
     if (value === "male" || value === "female" || value === "other") {
@@ -32,7 +31,14 @@ const Vitals = ({ setStep }: Props) => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+    // TODO: send data
+    setFormData({
+      ...formData,
+      fullName: data.fullName,
+      userName: data.userName,
+      birthDate: data.birthDate,
+      gender: data.gender
+    });
     setStep("body_settings");
   };
 

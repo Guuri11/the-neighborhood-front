@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "react-native";
+import { KeyboardTypeOptions, Text } from "react-native";
 import { Control, Controller, RegisterOptions } from "react-hook-form";
 import { Input } from "@rneui/themed";
 import Heading from "../Heading";
@@ -16,10 +16,14 @@ type Props = {
   placeholder: string;
   secureTextEntry: boolean;
   label: string;
-  type: "textInput" | "picker" | "datePicker";
+  type: "textInput" | "picker" | "datePicker" | "number";
 };
 
-const genderValues = [{label: "Male", value: "male"}, {label: "Female", value: "female"}, {label: "Other", value: "other"}]
+const genderValues = [
+  { label: "Male", value: "male" },
+  { label: "Female", value: "female" },
+  { label: "Other", value: "other" },
+];
 
 const CustomInput = ({
   control,
@@ -30,6 +34,13 @@ const CustomInput = ({
   label,
   type,
 }: Props) => {
+  const getKeybordType = (): KeyboardTypeOptions => {
+    if (type === "number") {
+      return "numeric";
+    }
+    return "default";
+  };
+
   return (
     <Controller
       control={control}
@@ -38,10 +49,11 @@ const CustomInput = ({
       render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
         <>
           <Heading size={2}>{label}</Heading>
-          {type === "textInput" && (
+          {(type === "textInput" || type === "number") && (
             <Input
               value={value}
               onChangeText={onChange}
+              keyboardType={getKeybordType()}
               onBlur={onBlur}
               placeholder={placeholder}
               secureTextEntry={secureTextEntry}
@@ -52,8 +64,14 @@ const CustomInput = ({
             <DatePicker onBlur={onBlur} label={label} onChange={onChange} />
           )}
 
-          {type === "picker" && (
-            <CustomPicker style={{}} onValueChange={onChange} items={genderValues} selectedValue={value} label={label} />
+          {type === "picker" && (
+            <CustomPicker
+              style={{}}
+              onValueChange={onChange}
+              items={genderValues}
+              selectedValue={value}
+              label={label}
+            />
           )}
 
           {error && (
