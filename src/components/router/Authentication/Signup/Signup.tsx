@@ -17,7 +17,7 @@ const Signup = () => {
   const [step, setStep] = useState<Steps>("vitals");
   const [formData, setFormData] = useState<FormData>();
   return (
-    <Template transparent>
+    <Template>
         {step === "vitals" && <Vitals formData={formData} setFormData={setFormData} setStep={setStep} />}
         {step === "body_settings" && <BodySettings formData={formData} setFormData={setFormData} setStep={setStep} />}
         {step === "career_history" && <CareerHistory formData={formData} setFormData={setFormData} setStep={setStep} />}

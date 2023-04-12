@@ -4,6 +4,10 @@ import { Button } from "@rneui/themed";
 import { useForm } from "react-hook-form";
 import { Gender } from "../../../../../../domain/Player";
 import CustomInput from "../../../../../design/common/Form/CustomInput";
+import Heading from "../../../../../design/common/Heading";
+import { StyleSheet, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import "../../../../../../services/locales/index";
 
 export type VitalsData = {
   fullName: string;
@@ -17,18 +21,18 @@ type Props = StepProps & {
   formData: FormData;
 };
 
-const genderValues = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-  { label: "Other", value: "other" },
-];
-
-
 const Vitals = ({ setStep, setFormData, formData }: Props) => {
-  const {
-    control,
-    handleSubmit
-  } = useForm<VitalsData>({defaultValues: { fullName: null, userName: null, gender: "male", birthDate: null}});
+  const { t } = useTranslation();
+
+  const genderValues = [
+    { label: t("male"), value: "male" },
+    { label: t("female"), value: "female" },
+    { label: t("other"), value: "other" },
+  ];
+
+  const { control, handleSubmit } = useForm<VitalsData>({
+    defaultValues: { fullName: null, userName: null, gender: "male", birthDate: null },
+  });
 
   const validateGender = (value: string) => {
     if (value === "male" || value === "female" || value === "other") {
@@ -44,19 +48,22 @@ const Vitals = ({ setStep, setFormData, formData }: Props) => {
       fullName: data.fullName,
       userName: data.userName,
       birthDate: data.birthDate,
-      gender: data.gender
+      gender: data.gender,
     });
     setStep("body_settings");
   };
 
   return (
     <>
+      <View style={styles.title}>
+        <Heading size={1}>{t("vitals")}</Heading>
+      </View>
       <CustomInput
         type='textInput'
-        label='Full name'
+        label={t("fullname")}
         name='fullName'
         control={control}
-        placeholder='Name'
+        placeholder=''
         secureTextEntry={false}
         rules={{
           required: "Full name is required",
@@ -72,10 +79,10 @@ const Vitals = ({ setStep, setFormData, formData }: Props) => {
       />
       <CustomInput
         type='textInput'
-        label='Username'
+        label={t('username')}
         name='userName'
         control={control}
-        placeholder='Username'
+        placeholder=''
         secureTextEntry={false}
         rules={{
           required: "Username is required",
@@ -92,7 +99,7 @@ const Vitals = ({ setStep, setFormData, formData }: Props) => {
 
       <CustomInput
         type='datePicker'
-        label='Birth Date'
+        label={t('birth_date')}
         name='birthDate'
         control={control}
         placeholder='Birth Date'
@@ -102,18 +109,24 @@ const Vitals = ({ setStep, setFormData, formData }: Props) => {
 
       <CustomInput
         type='picker'
-        label='Gender'
+        label={t('gender')}
         name='gender'
         control={control}
-        placeholder='Gender'
+        placeholder=''
         items={genderValues}
         secureTextEntry={false}
         rules={{ required: true, validate: validateGender }}
       />
 
-      <Button title='Enviar' onPress={handleSubmit(onSubmit)} />
+      <Button title={t("send")} onPress={handleSubmit(onSubmit)} />
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  title: {
+    alignItems: "center",
+  },
+});
 
 export default Vitals;

@@ -31,7 +31,7 @@ const LocationPage = observer(() => {
   };
 
   return (
-    <Template transparent={false}>
+    <Template>
       <Text>Logo</Text>
       <Heading size={2}>Have you activated localization?</Heading>
       <Text>Easily find services near you by activating location</Text>

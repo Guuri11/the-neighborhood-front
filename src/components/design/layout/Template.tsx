@@ -8,15 +8,16 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type Props = PropsWithChildren & {
-  transparent: boolean,
+  paddingFull?: boolean,
 }
 
-export default function Template({ children }: Props) {
+export default function Template({ children, paddingFull }: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAwareScrollView
       style={{
         ...styles.wrapper,
+        paddingHorizontal: paddingFull ? 0 : 20
       }}
       >
         <View style={{ flex: 1, minHeight: "100%" }}>
