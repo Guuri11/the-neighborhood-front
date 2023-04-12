@@ -17,13 +17,8 @@ type Props = {
   secureTextEntry: boolean;
   label: string;
   type: "textInput" | "picker" | "datePicker" | "number";
+  items?: any[]
 };
-
-const genderValues = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-  { label: "Other", value: "other" },
-];
 
 const CustomInput = ({
   control,
@@ -33,6 +28,7 @@ const CustomInput = ({
   secureTextEntry,
   label,
   type,
+  items,
 }: Props) => {
   const getKeybordType = (): KeyboardTypeOptions => {
     if (type === "number") {
@@ -68,7 +64,7 @@ const CustomInput = ({
             <CustomPicker
               style={{}}
               onValueChange={onChange}
-              items={genderValues}
+              items={items}
               selectedValue={value}
               label={label}
             />

@@ -17,11 +17,18 @@ type Props = StepProps & {
   formData: FormData;
 };
 
+const genderValues = [
+  { label: "Male", value: "male" },
+  { label: "Female", value: "female" },
+  { label: "Other", value: "other" },
+];
+
+
 const Vitals = ({ setStep, setFormData, formData }: Props) => {
   const {
     control,
     handleSubmit
-  } = useForm<VitalsData>();
+  } = useForm<VitalsData>({defaultValues: { fullName: null, userName: null, gender: "male", birthDate: null}});
 
   const validateGender = (value: string) => {
     if (value === "male" || value === "female" || value === "other") {
@@ -99,6 +106,7 @@ const Vitals = ({ setStep, setFormData, formData }: Props) => {
         name='gender'
         control={control}
         placeholder='Gender'
+        items={genderValues}
         secureTextEntry={false}
         rules={{ required: true, validate: validateGender }}
       />
