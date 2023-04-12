@@ -6,6 +6,7 @@ import { useAuthorizationStore, useLocationStore } from "../../hooks/store";
 import OnBoarding from "../router/OnBoarding/OnBoarding";
 import LocationPage from "../router/LocationPage/LocationPage";
 import Signup from "../router/Authentication/Signup/Signup";
+import Navigation from "../router/Navigation";
 
 const Security = observer(() => {
   const authorizationStore = useAuthorizationStore();
@@ -51,7 +52,7 @@ const Security = observer(() => {
     return <LocationPage />
   }
 
-  return <LoadingPage />
+  return <Navigation />;
 
 })
 
