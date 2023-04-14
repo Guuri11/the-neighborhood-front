@@ -5,6 +5,7 @@ import AppStore from "../../stores/app";
 import AuthenticationStore from "../../stores/app/authentication";
 import AuthorizationStore from "../../stores/app/authorization";
 import LocationStore from "../../stores/app/location";
+import UIStore from "../../stores/app/ui";
 
 
 export const useAppStore = (): AppStore => {
@@ -28,4 +29,9 @@ export const useAuthorizationStore = (): AuthorizationStore => {
 export const useLocationStore = (): LocationStore => {
   const store = useAppStore();
   return store.locationStore;
+};
+
+export const useUIStore = (): UIStore => {
+  const store = useAppStore();
+  return store.UIStore;
 };
