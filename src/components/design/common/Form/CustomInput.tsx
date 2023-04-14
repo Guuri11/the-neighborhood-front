@@ -13,10 +13,10 @@ type Props = {
   >;
   control: Control<any>;
   name: string;
-  placeholder: string;
-  secureTextEntry: boolean;
+  placeholder?: string;
+  secureTextEntry?: boolean;
   label: string;
-  type: "textInput" | "picker" | "datePicker" | "number";
+  type: "textInput" | "picker" | "datePicker" | "number" | "email";
   items?: any[]
 };
 
@@ -34,6 +34,9 @@ const CustomInput = ({
     if (type === "number") {
       return "numeric";
     }
+    if (type === "email") {
+      return "email-address";
+    }
     return "default";
   };
 
@@ -45,7 +48,7 @@ const CustomInput = ({
       render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
         <>
           <Heading size={2}>{label}</Heading>
-          {(type === "textInput" || type === "number") && (
+          {(type === "textInput" || type === "number" ||  type === "email") && (
             <Input
               value={value}
               onChangeText={onChange}
