@@ -1,23 +1,22 @@
-import React from 'react';
+import React from "react";
 
-import { AppProvider } from '../../context';
-import AppStore from '../../stores/app';
+import { AppProvider } from "../../context";
+import AppStore from "../../stores/app";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export type AppProps = {
+const client = new QueryClient();
 
-}
+export type AppProps = {};
 
-type Props = React.PropsWithChildren<AppProps>
+type Props = React.PropsWithChildren<AppProps>;
 
 const AppWrapper: React.FunctionComponent<Props> = ({ children }: Props) => {
-  const defaultStore = React.useRef(
-    new AppStore(),
-  );
+  const defaultStore = React.useRef(new AppStore());
 
   return (
-    <AppProvider store={defaultStore.current}>
-      {children}
-    </AppProvider>
+    <QueryClientProvider client={client}>
+      <AppProvider store={defaultStore.current}>{children}</AppProvider>
+    </QueryClientProvider>
   );
 };
 
