@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from "react-native";
 import React from "react";
-import { FormData, StepProps } from "../../Signup";
 import { useForm } from "react-hook-form";
-import CustomInput from "../../../../../design/common/Form/CustomInput";
+import CustomInput from "../../../../../../design/common/Form/CustomInput";
 import { Button, Image } from "@rneui/themed";
-import Heading from "../../../../../design/common/Heading";
+import Heading from "../../../../../../design/common/Heading";
+import { FormData, StepProps } from "../../PlayerCreation";
 
 export type BodySettingsData = {
   height: number;

@@ -19,5 +19,12 @@
   "username": "User name",
   "birth_date": "Birth date",
   "gender": "Gender",
-  "send": "Send"
+  "send": "Send",
+  "sign_up": "Sign up",
+  "enter_your_details_to_continue": "Enter your details to continue",
+  "email": "Email",
+  "password": "Password",
+  "confirm_password": "Confirm password",
+  "accept_terms": "Accept terms",
+  "required": "Required"
 }

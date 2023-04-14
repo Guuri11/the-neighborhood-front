@@ -1,12 +1,12 @@
 import { View, StyleSheet } from "react-native";
 import React from "react";
-import { FormData, StepProps } from "../../Signup";
+import { FormData, StepProps } from "../../../Signup";
 import { useForm } from "react-hook-form";
-import CustomInput from "../../../../../design/common/Form/CustomInput";
+import CustomInput from "../../../../../../design/common/Form/CustomInput";
 import { Button, Text } from "@rneui/themed";
-import Heading from "../../../../../design/common/Heading";
-import { Position } from "../../../../../../domain/Player";
-import * as CareerHistoryDomain from "../../../../../../domain/CareerHistory";
+import Heading from "../../../../../../design/common/Heading";
+import { Position } from "../../../../../../../domain/Player";
+import * as CareerHistoryDomain from "../../../../../../../domain/CareerHistory";
 
 export type Props = StepProps & {
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;

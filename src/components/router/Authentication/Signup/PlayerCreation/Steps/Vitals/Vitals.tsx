@@ -1,13 +1,13 @@
 import React from "react";
-import { FormData, StepProps } from "../../Signup";
 import { Button } from "@rneui/themed";
 import { useForm } from "react-hook-form";
-import { Gender } from "../../../../../../domain/Player";
-import CustomInput from "../../../../../design/common/Form/CustomInput";
-import Heading from "../../../../../design/common/Heading";
+import { Gender } from "../../../../../../../domain/Player";
+import CustomInput from "../../../../../../design/common/Form/CustomInput";
+import Heading from "../../../../../../design/common/Heading";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import "../../../../../../services/locales/index";
+import "../../../../../../../services/locales/index";
+import { FormData, StepProps } from "../../PlayerCreation";
 
 export type VitalsData = {
   fullName: string;

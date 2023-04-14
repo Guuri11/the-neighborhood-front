@@ -1,27 +1,97 @@
-import { View, Text } from "react-native";
 import React, { useState } from "react";
 import Template from "../../../design/layout/Template";
-import Vitals, { VitalsData } from "./Steps/Vitals/Vitals";
-import BodySettings, { BodySettingsData } from "./Steps/BodySettings/BodySettings";
-import CareerHistory from "./Steps/CareerHistory/CareerHistory";
-import Archetype from "./Steps/Archetype/Archetype";
+import { useTranslation } from "react-i18next";
+import "../../../../services/locales/index";
+import Heading from "../../../design/common/Heading";
+import { View } from "react-native";
+import CustomInput from "../../../design/common/Form/CustomInput";
+import { useForm } from "react-hook-form";
+import { Button, CheckBox, Text } from "@rneui/themed";
+import { PRIMARY_COLOR } from "../../../../assets/colors";
 
-export type Steps = "vitals" | "body_settings" | "career_history" | "archetype";
-export type StepProps = {
-  setStep: React.Dispatch<React.SetStateAction<Steps>>;
+type SignUpData = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 };
 
-export type FormData = VitalsData & BodySettingsData;
-// todo add step back
 const Signup = () => {
-  const [step, setStep] = useState<Steps>("vitals");
-  const [formData, setFormData] = useState<FormData>();
+  const { t } = useTranslation();
+  const [checked, setChecked] = useState(false);
+  const [showTermsAcceptedError, setshowTermsAcceptedError] = useState(false);
+  const { control, handleSubmit, watch } = useForm<SignUpData>({
+    defaultValues: { name: null, email: null, password: null, confirmPassword: null },
+  });
+
+  const sendData = (data: SignUpData) => {
+    if (checked) {
+    } else {
+      setshowTermsAcceptedError(true);
+    }
+  };
+
   return (
     <Template>
-        {step === "vitals" && <Vitals formData={formData} setFormData={setFormData} setStep={setStep} />}
-        {step === "body_settings" && <BodySettings formData={formData} setFormData={setFormData} setStep={setStep} />}
-        {step === "career_history" && <CareerHistory formData={formData} setFormData={setFormData} setStep={setStep} />}
-        {step === "archetype" && <Archetype formData={formData} setStep={setStep} />}
+      <Heading size={1} align='center'>
+        {t("sign_up")}
+      </Heading>
+      <Heading size={3} align='center'>
+        {t("enter_your_details_to_continue")}
+      </Heading>
+      <View style={{ marginTop: 20 }}>
+        <CustomInput
+          control={control}
+          label={t("fullname")}
+          name='name'
+          rules={{
+            required: t("required"),
+          }}
+          placeholder=''
+          type='textInput'
+        />
+        <CustomInput
+          control={control}
+          label={t("email")}
+          name='email'
+          rules={{
+            required: t("required"),
+          }}
+          placeholder='username@domain.com'
+          type='email'
+        />
+        <CustomInput
+          control={control}
+          label={t("password")}
+          name='password'
+          rules={{
+            required: t("required"),
+            min: 6,
+          }}
+          type='textInput'
+          secureTextEntry
+        />
+        <CustomInput
+          control={control}
+          label={t("confirm_password")}
+          name='confirmPassword'
+          rules={{
+            required: t("required"),
+            min: 6,
+            validate: (value) => value === watch("password") || "The passwords do not match",
+          }}
+          type='textInput'
+          secureTextEntry
+        />
+        {showTermsAcceptedError && <Text style={{ color: "red" }}>{t("required")}</Text>}
+        <CheckBox
+          title={t("accept_terms")}
+          checked={checked}
+          onPress={() => setChecked(!checked)}
+          checkedColor={PRIMARY_COLOR}
+        />
+        <Button onPress={handleSubmit(sendData)}>{t("send")}</Button>
+      </View>
     </Template>
   );
 };

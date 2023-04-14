@@ -19,5 +19,12 @@
   "username": "Nombre de usuario",
   "birth_date": "Fecha de nacimiento",
   "gender": "Género",
-  "send": "Enviar"
+  "send": "Enviar",
+  "sign_up": "Registrate",
+  "enter_your_details_to_continue": "Introduce tus datos para continuar",
+  "email": "Email",
+  "password": "Contraseña",
+  "confirm_password": "Repite la contraseña",
+  "accept_terms": "Aceptar los terminos",
+  "required": "Rellena este campo"
 }

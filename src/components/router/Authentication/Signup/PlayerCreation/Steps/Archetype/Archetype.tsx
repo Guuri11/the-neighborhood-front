@@ -1,11 +1,11 @@
 import { View, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
-import { FormData, StepProps } from "../../Signup";
 import { Button, Image } from "@rneui/themed";
-import Heading from "../../../../../design/common/Heading";
-import * as PlayerDomain from "../../../../../../domain/Player";
-import { storeData } from "../../../../../../hooks/useAsyncStorage";
-import { useAuthorizationStore } from "../../../../../../hooks/store";
+import Heading from "../../../../../../design/common/Heading";
+import * as PlayerDomain from "../../../../../../../domain/Player";
+import { storeData } from "../../../../../../../hooks/useAsyncStorage";
+import { useAuthorizationStore } from "../../../../../../../hooks/store";
+import { FormData, StepProps } from "../../PlayerCreation";
 
 export type Props = StepProps & {
   formData: FormData;
