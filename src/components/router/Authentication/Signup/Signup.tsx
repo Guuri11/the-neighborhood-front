@@ -8,7 +8,9 @@ import CustomInput from "../../../design/common/Form/CustomInput";
 import { useForm } from "react-hook-form";
 import { Button, CheckBox, Text } from "@rneui/themed";
 import { PRIMARY_COLOR } from "../../../../assets/colors";
-
+import { useMutation } from "@tanstack/react-query";
+import { register } from "../../../../services/api/authentication";
+import { useUIStore } from "../../../../hooks/store";
 type SignUpData = {
   name: string;
   email: string;
@@ -21,11 +23,27 @@ const Signup = () => {
   const [checked, setChecked] = useState(false);
   const [showTermsAcceptedError, setshowTermsAcceptedError] = useState(false);
   const { control, handleSubmit, watch } = useForm<SignUpData>({
-    defaultValues: { name: null, email: null, password: null, confirmPassword: null },
+    defaultValues: { name: "sergio", email: "guriacb11@gmai.com", password: "qweqwe", confirmPassword: "qweqwe" },
   });
+  const uiStore = useUIStore();
 
-  const sendData = (data: SignUpData) => {
+  const { mutate } = useMutation({
+    mutationFn: register,
+    onSuccess: (response) => {
+      if (response?.token) {
+        
+      } else {
+        uiStore.notification.addNotification(response.error, "error")
+      }
+    },
+    onError: () => {
+        uiStore.notification.addNotification("Unhandled error", "error")
+    }
+  })
+
+  const sendData = async (data: SignUpData) => {
     if (checked) {
+      mutate({name: data.name, email: data.email, password: data.password})
     } else {
       setshowTermsAcceptedError(true);
     }
