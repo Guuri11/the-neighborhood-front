@@ -35,13 +35,13 @@ const BodySettings = ({ setStep, setFormData, formData }: Props) => {
         <Heading size={1}>Body Settings</Heading>
         {formData.gender === "male" && (
           <Image
-            source={require(`../../../../../../assets/images/male-body.png`)}
+            source={require('../../../../../../../assets/images/male-body.png')}
             style={{ width: 200, height: 200 }}
           />
         )}
         {formData.gender === "female" && (
           <Image
-            source={require(`../../../../../../assets/images/female-body.png`)}
+            source={require('../../../../../../../assets/images/female-body.png')}
             style={{ width: 200, height: 200 }}
           />
         )}

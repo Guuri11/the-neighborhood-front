@@ -2,14 +2,16 @@ import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
 import { useAsyncStorage } from "../../hooks/useAsyncStorage";
 import LoadingPage from "../design/common/Loading";
-import { useAuthorizationStore, useLocationStore } from "../../hooks/store";
+import { useAuthenticationStore, useAuthorizationStore, useLocationStore } from "../../hooks/store";
 import OnBoarding from "../router/OnBoarding/OnBoarding";
 import LocationPage from "../router/LocationPage/LocationPage";
 import Signup from "../router/Authentication/Signup/Signup";
 import Navigation from "../router/Navigation";
+import PlayerCreation from "../router/Authentication/Signup/PlayerCreation/PlayerCreation";
 
 const Security = observer(() => {
   const authorizationStore = useAuthorizationStore();
+  const authenticationStore = useAuthenticationStore();
   const locationStore = useLocationStore();
   const { getData } = useAsyncStorage();
   const [loading, setLoading] = useState(true);
@@ -23,7 +25,7 @@ const Security = observer(() => {
       }
       setLoading(false);
     });
-  }, [])
+  }, []);
 
   useEffect(() => {
     getData("firstTime").then((value) => {
@@ -34,7 +36,17 @@ const Security = observer(() => {
       }
       setLoading(false);
     });
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    getData("token").then((value) => {
+      if (value) {
+        authenticationStore.setToken(value);
+        authenticationStore.getSelf();
+      }
+      setLoading(false);
+    });
+  }, []);
 
   if (loading) {
     return <LoadingPage />;
@@ -45,15 +57,21 @@ const Security = observer(() => {
   }
 
   if (authorizationStore.firstTime === "1") {
-    return <Signup />
+    if (authenticationStore.user?.nickname === null) {
+      return <PlayerCreation />;
+    }
+    return <Signup />;
+  }
+
+  if (!authenticationStore.isAuthenticated) {
+    // TODO: go to login page
   }
 
   if (!locationStore.location) {
-    return <LocationPage />
+    return <LocationPage />;
   }
 
   return <Navigation />;
-
-})
+});
 
 export default Security;

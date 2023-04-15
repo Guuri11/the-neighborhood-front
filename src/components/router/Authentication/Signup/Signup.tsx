@@ -10,7 +10,9 @@ import { Button, CheckBox, Text } from "@rneui/themed";
 import { PRIMARY_COLOR } from "../../../../assets/colors";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "../../../../services/api/authentication";
-import { useUIStore } from "../../../../hooks/store";
+import { useAuthenticationStore, useUIStore } from "../../../../hooks/store";
+import { RegisterResponse } from "../../../../domain/Authentication/authentication";
+
 type SignUpData = {
   name: string;
   email: string;
@@ -23,27 +25,36 @@ const Signup = () => {
   const [checked, setChecked] = useState(false);
   const [showTermsAcceptedError, setshowTermsAcceptedError] = useState(false);
   const { control, handleSubmit, watch } = useForm<SignUpData>({
-    defaultValues: { name: "sergio", email: "guriacb11@gmai.com", password: "qweqwe", confirmPassword: "qweqwe" },
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: ""
+    },
   });
   const uiStore = useUIStore();
+  const authenticationStore = useAuthenticationStore();
 
   const { mutate } = useMutation({
     mutationFn: register,
-    onSuccess: (response) => {
-      if (response?.token) {
-        
-      } else {
-        uiStore.notification.addNotification(response.error, "error")
-      }
-    },
+    onSuccess: (register) => handleOnSuccess(register),
     onError: () => {
-        uiStore.notification.addNotification("Unhandled error", "error")
+      uiStore.notification.addNotification("Unhandled error", "error");
+    },
+  });
+
+  const handleOnSuccess = (response: RegisterResponse | any) => {
+    if (response?.token) {
+      authenticationStore.setToken(response.token);
+      authenticationStore.getSelf();
+    } else {
+      uiStore.notification.addNotification(response.error, "error");
     }
-  })
+  };
 
   const sendData = async (data: SignUpData) => {
     if (checked) {
-      mutate({name: data.name, email: data.email, password: data.password})
+      mutate({ name: data.name, email: data.email, password: data.password });
     } else {
       setshowTermsAcceptedError(true);
     }

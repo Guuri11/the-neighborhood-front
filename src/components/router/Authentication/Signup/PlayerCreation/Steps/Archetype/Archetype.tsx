@@ -50,7 +50,7 @@ type ArchetypeImageProps = {
 
 const ArchetypeImage = ({ archetype }: ArchetypeImageProps) => {
   if (archetype === "SLASHER") {
-      return <Image source={require("../../../../../../assets/images/SLASHER.png")} style={{ width: 300, height: 500 }} />
+      return <Image source={require("../../../../../../../assets/images/SLASHER.png")} style={{ width: 300, height: 500 }} />
   }
 }
 
