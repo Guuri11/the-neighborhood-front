@@ -4,17 +4,19 @@ import BodySettings, { BodySettingsData } from "./Steps/BodySettings/BodySetting
 import Template from "../../../../design/layout/Template";
 import CareerHistory from "./Steps/CareerHistory/CareerHistory";
 import Archetype from "./Steps/Archetype/Archetype";
+import * as CareerHistoryDomain from "../../../../../domain/CareerHistory";
 
 export type Steps = "vitals" | "body_settings" | "career_history" | "archetype";
 export type StepProps = {
   setStep: React.Dispatch<React.SetStateAction<Steps>>;
 };
 
-export type FormData = VitalsData & BodySettingsData;
+export type FormData = VitalsData & BodySettingsData & CareerHistoryDomain.CareerHistory;
 // TODO: add step back
 const PlayerCreation = () => {
   const [step, setStep] = useState<Steps>("vitals");
   const [formData, setFormData] = useState<FormData>();
+  
   return (
     <Template>
         {step === "vitals" && <Vitals formData={formData} setFormData={setFormData} setStep={setStep} />}

@@ -8,9 +8,9 @@ import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import "../../../../../../../services/locales/index";
 import { FormData, StepProps } from "../../PlayerCreation";
+import { update } from "../../../../../../../services/api/player";
 
 export type VitalsData = {
-  fullName: string;
   userName: string;
   birthDate: string;
   gender: Gender;
@@ -31,7 +31,7 @@ const Vitals = ({ setStep, setFormData, formData }: Props) => {
   ];
 
   const { control, handleSubmit } = useForm<VitalsData>({
-    defaultValues: { fullName: null, userName: null, gender: "male", birthDate: null },
+    defaultValues: { userName: null, gender: "male", birthDate: null },
   });
 
   const validateGender = (value: string) => {
@@ -45,7 +45,6 @@ const Vitals = ({ setStep, setFormData, formData }: Props) => {
     // TODO: send data
     setFormData({
       ...formData,
-      fullName: data.fullName,
       userName: data.userName,
       birthDate: data.birthDate,
       gender: data.gender,
@@ -58,25 +57,6 @@ const Vitals = ({ setStep, setFormData, formData }: Props) => {
       <View style={styles.title}>
         <Heading size={1}>{t("vitals")}</Heading>
       </View>
-      <CustomInput
-        type='textInput'
-        label={t("fullname")}
-        name='fullName'
-        control={control}
-        placeholder=''
-        secureTextEntry={false}
-        rules={{
-          required: "Full name is required",
-          minLength: {
-            value: 3,
-            message: "Full name should be at least 3 characters long",
-          },
-          maxLength: {
-            value: 85,
-            message: "Full name should be max 85 characters long",
-          },
-        }}
-      />
       <CustomInput
         type='textInput'
         label={t('username')}

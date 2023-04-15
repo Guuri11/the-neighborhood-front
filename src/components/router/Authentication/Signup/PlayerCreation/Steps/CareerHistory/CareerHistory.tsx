@@ -1,12 +1,11 @@
 import { View, StyleSheet } from "react-native";
 import React from "react";
-import { FormData, StepProps } from "../../../Signup";
 import { useForm } from "react-hook-form";
 import CustomInput from "../../../../../../design/common/Form/CustomInput";
 import { Button, Text } from "@rneui/themed";
 import Heading from "../../../../../../design/common/Heading";
-import { Position } from "../../../../../../../domain/Player";
 import * as CareerHistoryDomain from "../../../../../../../domain/CareerHistory";
+import { FormData, StepProps } from "../../PlayerCreation";
 
 export type Props = StepProps & {
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
@@ -25,11 +24,16 @@ const CareerHistory = ({ setStep, setFormData, formData }: Props) => {
   const { control, handleSubmit } = useForm<CareerHistoryDomain.CareerHistory>();
 
   const onSubmit = (data) => {
-    // TODO: send data
     setFormData({
       ...formData,
-      height: data.height,
-      weight: data.weight,
+      position: data.position,
+      team: data.team,
+      league: data.league,
+      pointsPerGame: data.pointsPerGame,
+      assistsPerGame: data.assistsPerGame,
+      reboundsPerGame: data.reboundsPerGame,
+      blocksPerGame: data.blocksPerGame,
+      stealsPerGame: data.stealsPerGame,
     });
     setStep("archetype");
   };

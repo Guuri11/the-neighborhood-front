@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Input } from "@rneui/base";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { UseFormRegister } from 'react-hook-form';
 
 const DatePicker = ({onChange, onBlur, label}) => {
   const [date, setDate] = useState(new Date());
@@ -12,7 +11,7 @@ const DatePicker = ({onChange, onBlur, label}) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
     setDate(currentDate);
-    onChange()
+    onChange(currentDate)
   };
 
   const showDatepicker = () => {

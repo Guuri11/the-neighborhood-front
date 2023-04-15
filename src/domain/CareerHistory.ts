@@ -1,7 +1,8 @@
-import { Position } from "./Player"
+import { Player, Position } from "./Player"
 
 // TODO: review this
 export type CareerHistory = {
+    player: number,
     position: Position;
     team: string;
     league: string;

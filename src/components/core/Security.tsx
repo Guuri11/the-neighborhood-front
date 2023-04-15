@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
-import { useAsyncStorage } from "../../hooks/useAsyncStorage";
+import { removeData, useAsyncStorage } from "../../hooks/useAsyncStorage";
 import LoadingPage from "../design/common/Loading";
 import { useAuthenticationStore, useAuthorizationStore, useLocationStore } from "../../hooks/store";
 import OnBoarding from "../router/OnBoarding/OnBoarding";
@@ -57,10 +57,10 @@ const Security = observer(() => {
   }
 
   if (authorizationStore.firstTime === "1") {
-    if (authenticationStore.user?.nickname === null) {
-      return <PlayerCreation />;
+    if (authenticationStore.user?.email === null) {
+      return <Signup />;
     }
-    return <Signup />;
+    return <PlayerCreation />;
   }
 
   if (!authenticationStore.isAuthenticated) {

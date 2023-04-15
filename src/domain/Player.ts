@@ -6,7 +6,7 @@ export type Player = {
     name: string;
     email: string;
     nickname: string;
-    heights: number;
+    height: number;
     weight: number;
     birthdate: string;
     level: number;

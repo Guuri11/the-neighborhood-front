@@ -11,3 +11,12 @@ export const me = async (token: string): Promise<Player | any> => fetch(`${path}
       'Authorization': 'Bearer ' + token
     },
   }).then((response) => response.json())
+
+  export const update = async (player: Player, token: string): Promise<Player | any> => fetch(`${path}`, {
+    method: 'PUT',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify(player)
+  }).then((response) => response.json())
