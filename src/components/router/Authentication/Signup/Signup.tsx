@@ -12,6 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import { register } from "../../../../services/api/authentication";
 import { useAuthenticationStore, useUIStore } from "../../../../hooks/store";
 import { RegisterResponse } from "../../../../domain/Authentication/authentication";
+import { storeData } from "../../../../hooks/useAsyncStorage";
 
 type SignUpData = {
   name: string;
@@ -54,7 +55,9 @@ const Signup = () => {
 
   const sendData = async (data: SignUpData) => {
     if (checked) {
-      mutate({ name: data.name, email: data.email, password: data.password });
+      mutate({ name: data.name, email: data.email.toLowerCase(), password: data.password });
+      storeData("userEmail", data.email);
+      storeData("userPassword", data.password);
     } else {
       setshowTermsAcceptedError(true);
     }

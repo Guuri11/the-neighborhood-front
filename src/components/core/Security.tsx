@@ -17,6 +17,10 @@ const Security = observer(() => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    removeData("showIntro")
+    removeData("firstTime")
+    removeData("userEmail")
+    removeData("userPassword")
     getData("showIntro").then((value) => {
       if (value === "0") {
         authorizationStore.setShowIntro("0");
@@ -57,7 +61,7 @@ const Security = observer(() => {
   }
 
   if (authorizationStore.firstTime === "1") {
-    if (authenticationStore.user?.email === null) {
+    if (!authenticationStore.user?.email) {
       return <Signup />;
     }
     return <PlayerCreation />;

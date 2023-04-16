@@ -37,7 +37,7 @@ const Archetype = observer(({ formData }: Props) => {
       if (formData.team?.length > 0) {
         const careerHistoryResult = await create(
           {
-            player: authenticationStore.user?.id,
+            player: { id: authenticationStore.user?.id},
             position: formData.position,
             team: formData.team,
             league: formData.league,

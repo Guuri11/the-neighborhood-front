@@ -7,3 +7,10 @@ export type RegisterRequest = {
 export type RegisterResponse = {
     token: string;
 }
+
+export type AuthenticationRequest = {
+    email: string;
+    password: string;
+}
+
+export type AuthenticationResponse = RegisterResponse;

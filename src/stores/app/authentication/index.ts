@@ -2,9 +2,10 @@
 import { action, makeAutoObservable, observable } from "mobx";
 import AppStore from "..";
 import { Resetable } from "../../interfaces/resetable";
-import { storeData } from "../../../hooks/useAsyncStorage";
+import { getData, removeData, storeData } from "../../../hooks/useAsyncStorage";
 import type { Player } from "../../../domain/Player";
 import { me } from "../../../services/api/player";
+import { login } from "../../../services/api/authentication";
 
 class AuthenticationStore implements Resetable {
   appStore!: AppStore;
@@ -25,8 +26,8 @@ class AuthenticationStore implements Resetable {
   }
 
   @action setToken(token: string) {
-   this.token = token;
-   storeData("token", token);
+    this.token = token;
+    storeData("token", token);
   }
 
   @action setUser(user: Player) {
@@ -34,16 +35,38 @@ class AuthenticationStore implements Resetable {
     this.isAuthenticated = user && user.nickname ? true : false;
   }
 
+  @action login = async () => {
+    try {
+      removeData("token");
+      const email = await getData("userEmail");
+      const password = await getData("userPassword");
+      
+      if (email && password) {
+        const loginResult = await login({ email: email, password: password });
+
+        if (loginResult.error) {
+          this.appStore.UIStore.notification.addNotification(loginResult.error, "error");
+          return;
+        }
+
+        this.setToken(loginResult.token);
+      }
+    } catch (error) {
+      console.log(error);
+      this.appStore.UIStore.notification.addNotification("Unhandled error", "error");
+    }
+  };
+
   @action getSelf = async () => {
     try {
-      const userResult = await me(this.token)
+      const userResult = await me(this.token);
       if (userResult?.email) {
         this.setUser(userResult);
         return;
       }
-      this.appStore.UIStore.notification.addNotification(userResult.error, "error");
+      this.login();
     } catch (error) {
-      this.appStore.UIStore.notification.addNotification("Unhandled error", "error");
+      this.login();
     }
   };
 }
