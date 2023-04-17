@@ -17,10 +17,10 @@ const Security = observer(() => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    removeData("showIntro")
-    removeData("firstTime")
-    removeData("userEmail")
-    removeData("userPassword")
+    // removeData("showIntro")
+    // removeData("firstTime")
+    // removeData("userEmail")
+    // removeData("userPassword")
     getData("showIntro").then((value) => {
       if (value === "0") {
         authorizationStore.setShowIntro("0");

@@ -1,6 +1,6 @@
 import { View, StyleSheet } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
-import { Button, Image } from "@rneui/themed";
+import { Button, Image, Text } from "@rneui/themed";
 import Heading from "../../../../../../design/common/Heading";
 import * as PlayerDomain from "../../../../../../../domain/Player";
 import {
@@ -9,16 +9,17 @@ import {
   useUIStore,
 } from "../../../../../../../hooks/store";
 import { FormData, StepProps } from "../../PlayerCreation";
-import { update } from "../../../../../../../services/api/player";
+import { getArchetype, update } from "../../../../../../../services/api/player";
 import { observer } from "mobx-react-lite";
 import { create } from "../../../../../../../services/api/playerCareerHistory";
+import { removeSlashes } from "../../../../../../../utils/CamelCaseFormat";
 
 export type Props = StepProps & {
   formData: FormData;
 };
 
 const Archetype = observer(({ formData }: Props) => {
-  const [archetype, setArchetype] = useState<PlayerDomain.Archetype>("SLASHER");
+  const [archetype, setArchetype] = useState<PlayerDomain.Archetype>(null);
   const [loading, setLoading] = useState(true);
   const authorizationStore = useAuthorizationStore();
   const authenticationStore = useAuthenticationStore();
@@ -31,13 +32,15 @@ const Archetype = observer(({ formData }: Props) => {
       weight: formData.weight,
       height: formData.height,
       birthdate: formData.birthDate,
+      position: formData.position,
+      gender: formData.gender,
     });
     try {
       const userResult = await update(authenticationStore.user, authenticationStore.token);
       if (formData.team?.length > 0) {
         const careerHistoryResult = await create(
           {
-            player: { id: authenticationStore.user?.id},
+            player: { id: authenticationStore.user?.id },
             position: formData.position,
             team: formData.team,
             league: formData.league,
@@ -56,6 +59,15 @@ const Archetype = observer(({ formData }: Props) => {
       if (userResult.error) {
         uiStore.notification.addNotification(userResult.error, "error");
       }
+      setTimeout(() => {
+        getArchetype(authenticationStore.token).then((value) => {
+          if (value?.error) {
+            uiStore.notification.addNotification(value.error, "error");
+          }
+          setArchetype(value);
+          setLoading(false);
+        });
+      }, 2500);
     } catch (error) {
       uiStore.notification.addNotification("Unhandled error", "error");
     }
@@ -63,7 +75,6 @@ const Archetype = observer(({ formData }: Props) => {
 
   useEffect(() => {
     updateUser();
-    setLoading(false);
   }, []);
 
   const onSubmit = () => {
@@ -78,9 +89,15 @@ const Archetype = observer(({ formData }: Props) => {
           {loading && "Generating Archetype"}
           {!loading && "Archetype"}
         </Heading>
-        <Heading size={3}>{archetype}</Heading>
-        {!loading && <ArchetypeImage archetype={archetype} />}
-        {loading && <ArchetypeImage archetype={archetype} />}
+        <Heading size={3}>{removeSlashes(archetype)}</Heading>
+        {!loading && (
+          <ArchetypeImage gender={authenticationStore.user.gender} />
+        )}
+        {loading && (
+          <View style={{height: 500}}>
+            <Text>Analyzing your game style...</Text>
+          </View>
+        )}
       </View>
       <Button title='Explore the neighborhood' onPress={onSubmit} />
     </>
@@ -88,18 +105,25 @@ const Archetype = observer(({ formData }: Props) => {
 });
 
 type ArchetypeImageProps = {
-  archetype: PlayerDomain.Archetype;
+  gender: PlayerDomain.Gender;
 };
 
-const ArchetypeImage = ({ archetype }: ArchetypeImageProps) => {
-  if (archetype === "SLASHER") {
+const ArchetypeImage = ({ gender }: ArchetypeImageProps) => {
+  if (gender === "male") {
     return (
       <Image
-        source={require("../../../../../../../assets/images/SLASHER.png")}
+        source={require("../../../../../../../assets/images/archetype-man.png")}
         style={{ width: 300, height: 500 }}
       />
     );
   }
+
+  return (
+    <Image
+      source={require("../../../../../../../assets/images/archetype-woman.png")}
+      style={{ width: 300, height: 500 }}
+    />
+  );
 };
 
 const styles = StyleSheet.create({

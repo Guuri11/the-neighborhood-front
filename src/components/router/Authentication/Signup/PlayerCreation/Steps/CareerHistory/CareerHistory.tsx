@@ -73,7 +73,7 @@ const CareerHistory = ({ setStep, setFormData, formData }: Props) => {
         rules={{}}
       />
       <CustomInput
-        type="textInput"
+        type="number"
         label="Points per game"
         name="pointsPerGame"
         control={control}
@@ -82,7 +82,7 @@ const CareerHistory = ({ setStep, setFormData, formData }: Props) => {
         rules={{}}
       />
        <CustomInput
-        type="textInput"
+        type="number"
         label="Assists per game"
         name="assistsPerGame"
         control={control}
@@ -100,7 +100,7 @@ const CareerHistory = ({ setStep, setFormData, formData }: Props) => {
         rules={{}}
       />
        <CustomInput
-        type="textInput"
+        type="number"
         label="Steals per game"
         name="stealsPerGame"
         control={control}
@@ -109,7 +109,7 @@ const CareerHistory = ({ setStep, setFormData, formData }: Props) => {
         rules={{}}
       />
        <CustomInput
-        type="textInput"
+        type="number"
         label="Blocks per game"
         name="blocksPerGame"
         control={control}
