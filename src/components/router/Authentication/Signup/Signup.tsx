@@ -44,12 +44,13 @@ const Signup = () => {
     },
   });
 
-  const handleOnSuccess = (response: RegisterResponse | any) => {
-    if (response?.token) {
-      authenticationStore.setToken(response.token);
+  const handleOnSuccess = async (response: RegisterResponse) => {
+    if (response.status < 400) {
+      authenticationStore.setToken((await response.response).token);
       authenticationStore.getSelf();
     } else {
-      uiStore.notification.addNotification(response.error, "error");
+      // TODO: handle this
+      uiStore.notification.addNotification("Server error", "error");
     }
   };
 

@@ -26,5 +26,7 @@
   "password": "Contraseña",
   "confirm_password": "Repite la contraseña",
   "accept_terms": "Aceptar los terminos",
-  "required": "Rellena este campo"
+  "required": "Rellena este campo",
+  "sign_in": "Inicio de sesión",
+  "welcome_back": "Bienvenido de nuevo al barrio"
 }

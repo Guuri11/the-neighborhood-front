@@ -26,5 +26,7 @@
   "password": "Password",
   "confirm_password": "Confirm password",
   "accept_terms": "Accept terms",
-  "required": "Required"
+  "required": "Required",
+  "sign_in": "Sign in",
+  "welcome_back": "Welcome back to the neighborhood"
 }

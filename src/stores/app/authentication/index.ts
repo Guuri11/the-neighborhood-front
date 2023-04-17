@@ -35,6 +35,10 @@ class AuthenticationStore implements Resetable {
     this.isAuthenticated = user && user.nickname ? true : false;
   }
 
+  @action setIsAuthenticated(authenticated: boolean) {
+      this.isAuthenticated = authenticated;
+  }
+
   @action login = async () => {
     try {
       removeData("token");
@@ -44,15 +48,17 @@ class AuthenticationStore implements Resetable {
       if (email && password) {
         const loginResult = await login({ email: email, password: password });
 
-        if (loginResult.error) {
-          this.appStore.UIStore.notification.addNotification(loginResult.error, "error");
+        if (loginResult.status === 400) {
+          this.isAuthenticated = false;
           return;
         }
 
-        this.setToken(loginResult.token);
+
+        this.setToken((await loginResult.response).token);
+      } else {
+        this.isAuthenticated = false;
       }
     } catch (error) {
-      console.log(error);
       this.appStore.UIStore.notification.addNotification("Unhandled error", "error");
     }
   };
@@ -69,6 +75,13 @@ class AuthenticationStore implements Resetable {
       this.login();
     }
   };
+
+  @action logout = () => {
+    removeData("token");
+    removeData("userEmail");
+    removeData("userPassword");
+    this.isAuthenticated = false;
+  }
 }
 
 export default AuthenticationStore;

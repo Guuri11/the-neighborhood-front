@@ -5,7 +5,8 @@ export type RegisterRequest = {
 }
 
 export type RegisterResponse = {
-    token: string;
+    status: number;
+    response: Promise<{token: string}>;
 }
 
 export type AuthenticationRequest = {

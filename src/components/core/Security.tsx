@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
-import { removeData, useAsyncStorage } from "../../hooks/useAsyncStorage";
+import { removeData, storeData, useAsyncStorage } from "../../hooks/useAsyncStorage";
 import LoadingPage from "../design/common/Loading";
 import { useAuthenticationStore, useAuthorizationStore, useLocationStore } from "../../hooks/store";
 import OnBoarding from "../router/OnBoarding/OnBoarding";
@@ -8,6 +8,7 @@ import LocationPage from "../router/LocationPage/LocationPage";
 import Signup from "../router/Authentication/Signup/Signup";
 import Navigation from "../router/Navigation";
 import PlayerCreation from "../router/Authentication/Signup/PlayerCreation/PlayerCreation";
+import SignIn from "../router/Authentication/SignIn/SignIn";
 
 const Security = observer(() => {
   const authorizationStore = useAuthorizationStore();
@@ -17,10 +18,7 @@ const Security = observer(() => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // removeData("showIntro")
-    // removeData("firstTime")
-    // removeData("userEmail")
-    // removeData("userPassword")
+
     getData("showIntro").then((value) => {
       if (value === "0") {
         authorizationStore.setShowIntro("0");
@@ -47,6 +45,8 @@ const Security = observer(() => {
       if (value) {
         authenticationStore.setToken(value);
         authenticationStore.getSelf();
+      } else {
+        authenticationStore.setIsAuthenticated(false);
       }
       setLoading(false);
     });
@@ -59,7 +59,7 @@ const Security = observer(() => {
   if (authorizationStore.showIntro === "1") {
     return <OnBoarding />;
   }
-
+  
   if (authorizationStore.firstTime === "1") {
     if (!authenticationStore.user?.email) {
       return <Signup />;
@@ -68,7 +68,7 @@ const Security = observer(() => {
   }
 
   if (!authenticationStore.isAuthenticated) {
-    // TODO: go to login page
+    return <SignIn />
   }
 
   if (!locationStore.location) {
