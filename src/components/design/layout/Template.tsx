@@ -31,7 +31,7 @@ export default function Template({ children, paddingFull }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight,
+    marginTop: StatusBar.currentHeight
   },
   wrapper: {
     flex: 1,
