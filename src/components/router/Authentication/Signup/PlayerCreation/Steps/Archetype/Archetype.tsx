@@ -12,7 +12,7 @@ import { FormData, StepProps } from "../../PlayerCreation";
 import { getArchetype, update } from "../../../../../../../services/api/player";
 import { observer } from "mobx-react-lite";
 import { create } from "../../../../../../../services/api/playerCareerHistory";
-import { removeSlashes } from "../../../../../../../utils/CamelCaseFormat";
+import { removeSlashes } from "../../../../../../../utils/removeSlashes";
 
 export type Props = StepProps & {
   formData: FormData;
@@ -89,7 +89,7 @@ const Archetype = observer(({ formData }: Props) => {
           {loading && "Generating Archetype"}
           {!loading && "Archetype"}
         </Heading>
-        <Heading size={3}>{removeSlashes(archetype)}</Heading>
+        {archetype && (<Heading size={3}>{removeSlashes(archetype)}</Heading>)}
         {!loading && (
           <ArchetypeImage gender={authenticationStore.user.gender} />
         )}
