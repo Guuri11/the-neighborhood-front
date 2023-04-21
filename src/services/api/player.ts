@@ -28,3 +28,11 @@ export const me = async (token: string): Promise<Player | any> => fetch(`${path}
       'Authorization': 'Bearer ' + token
     },
   }).then((response) => response.json())
+
+  export const getPlayers = async (token: string): Promise<Archetype | any> => fetch(`${path}?name`, {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+  }).then((response) => response.json())
