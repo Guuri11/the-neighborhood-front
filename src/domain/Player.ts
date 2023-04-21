@@ -17,7 +17,7 @@ export type Player = {
   experience: number;
   position: Position;
   gender: Gender;
-  achertype: Archetype;
+  archetype: Archetype;
 };
 
 export type Archetype =
