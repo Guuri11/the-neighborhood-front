@@ -1,78 +1,70 @@
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
-import { removeData, storeData, useAsyncStorage } from "../../hooks/useAsyncStorage";
-import LoadingPage from "../design/common/Loading";
-import { useAuthenticationStore, useAuthorizationStore, useLocationStore } from "../../hooks/store";
-import OnBoarding from "../router/OnBoarding/OnBoarding";
-import LocationPage from "../router/LocationPage/LocationPage";
-import Signup from "../router/Authentication/Signup/Signup";
+import React, { useCallback, useEffect } from "react";
+import { useAsyncStorage } from "../../hooks/useAsyncStorage";
+import { useAuthenticationStore, useAuthorizationStore, useUIStore } from "../../hooks/store";
 import Navigation from "../router/Navigation";
-import PlayerCreation from "../router/Authentication/Signup/PlayerCreation/PlayerCreation";
-import SignIn from "../router/Authentication/SignIn/SignIn";
+import LoadingPage from "../design/common/Loading";
 
 const Security = observer(() => {
   const authorizationStore = useAuthorizationStore();
   const authenticationStore = useAuthenticationStore();
-  const locationStore = useLocationStore();
   const { getData } = useAsyncStorage();
-  const [loading, setLoading] = useState(true);
+  const uiStore = useUIStore();
 
-  useEffect(() => {
-
-    getData("showIntro").then((value) => {
+  const handleShowIntro = useCallback(
+    (value: string) => {
       if (value === "0") {
         authorizationStore.setShowIntro("0");
       } else {
         authorizationStore.setShowIntro("1");
       }
-      setLoading(false);
-    });
-  }, []);
+    },
+    [authorizationStore.showIntro],
+  );
 
-  useEffect(() => {
-    getData("firstTime").then((value) => {
+  const handleFirsTime = useCallback(
+    (value: string) => {
       if (value === "0") {
         authorizationStore.setIsFirstTime("0");
       } else {
         authorizationStore.setIsFirstTime("1");
       }
-      setLoading(false);
-    });
-  }, []);
+    },
+    [authorizationStore.firstTime],
+  );
 
-  useEffect(() => {
-    getData("token").then((value) => {
+  const handleToken = useCallback(
+    (value: string) => {
       if (value) {
         authenticationStore.setToken(value);
         authenticationStore.getSelf();
       } else {
         authenticationStore.setIsAuthenticated(false);
       }
-      setLoading(false);
-    });
-  }, []);
+    },
+    [authenticationStore.token],
+  );
 
-  if (loading) {
+  useEffect(() => {
+    Promise.all([getData("showIntro"), getData("firstTime"), getData("token")])
+      .then((values) => {
+        handleShowIntro(values[0]);
+        handleFirsTime(values[1]);
+        handleToken(values[2]);
+        uiStore.loading.stopLoading();
+      })
+      .catch(() => {
+        uiStore.notification.addNotification("Unhandled error");
+      });
+  }, [
+    authenticationStore.isAuthenticated,
+    authorizationStore.firstTime,
+    authenticationStore.user?.email,
+    authorizationStore.showIntro,
+  ]);
+
+  if (uiStore.loading.loading) {
     return <LoadingPage />;
-  }
-
-  if (authorizationStore.showIntro === "1") {
-    return <OnBoarding />;
-  }
-  
-  if (authorizationStore.firstTime === "1") {
-    if (!authenticationStore.user?.email) {
-      return <Signup />;
-    }
-    return <PlayerCreation />;
-  }
-
-  if (!authenticationStore.isAuthenticated) {
-    return <SignIn />
-  }
-
-  if (!locationStore.location) {
-    return <LocationPage />;
   }
 
   return <Navigation />;
