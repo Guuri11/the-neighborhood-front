@@ -7,7 +7,7 @@ import { PRIMARY_COLOR } from "../../../assets/colors";
 import { useTranslation } from "react-i18next";
 import "../../../services/locales/index";
 
-export default function OnBoarding() {
+export default function OnBoarding({navigation}) {
   const { t } = useTranslation();
   const authorizationStore = useAuthorizationStore();
 
@@ -44,13 +44,18 @@ export default function OnBoarding() {
     );
   };
 
+  const handleFinish = () => {
+    authorizationStore.setShowIntro("0")
+    navigation.navigate("SignUp");
+  }
+
   return (
     <AppIntroSlider
       keyExtractor={(item) => item.key.toString()}
       renderItem={_renderItem}
       data={slides}
-      onDone={() => authorizationStore.setShowIntro("0")}
-      onSkip={() => authorizationStore.setShowIntro("0")}
+      onDone={handleFinish}
+      onSkip={handleFinish}
       activeDotStyle={{ backgroundColor: PRIMARY_COLOR }}
       bottomButton
       nextLabel={t("next")}
