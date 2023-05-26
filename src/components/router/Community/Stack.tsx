@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Community from "./Community";
 import SearchPlayer from "./SearchPlayer";
+import PlayerProfile from "./PlayerProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,10 @@ export default function CommunityStack() {
         name='SearchPlayer'
         component={SearchPlayer}
         options={{ title: "Search" }}
+      />
+      <Stack.Screen
+        name='PlayerProfile'
+        component={PlayerProfile}
       />
     </Stack.Navigator>
   );

@@ -7,9 +7,11 @@ import { getPlayers } from "../../../services/api/player";
 import { useAuthenticationStore, useUIStore } from "../../../hooks/store";
 import { Player } from "../../../domain/Player";
 import { removeSlashes } from "../../../utils/removeSlashes";
+import { observer } from "mobx-react-lite";
 
-const SearchPlayer = ({ navigation }) => {
+const SearchPlayer = observer(({ navigation }: any) => {
   const [searchValue, setSearchValue] = useState("");
+  // TODO: handle loading & submitting
   const [loading, setLoading] = useState(false);
   const [submited, setSubmited] = useState(false);
   const [players, setPlayers] = useState<Player[]>([]);
@@ -31,15 +33,15 @@ const SearchPlayer = ({ navigation }) => {
     }
   }, [searchValue]);
 
-  const handleOnPress = () => {
-    // TODO: Handle go to player profile
+  const handleOnPress = (playerId: number) => {
+    navigation.navigate("PlayerProfile", { playerId });
   };
 
   const handleOnChange = (search) => {
     setSearchValue(search);
   };
   return (
-    <Template>
+    <Template paddingFull>
       <View>
         <SearchBar
           platform='default'
@@ -59,7 +61,7 @@ const SearchPlayer = ({ navigation }) => {
               key={player.id}
               containerStyle={{ backgroundColor: null }}
               bottomDivider={player.id !== players.length - 1}
-              onPress={handleOnPress}
+              onPress={() => handleOnPress(player.id)}
             >
               <Avatar
                 rounded
@@ -78,7 +80,7 @@ const SearchPlayer = ({ navigation }) => {
       </View>
     </Template>
   );
-};
+});
 
 const styles = StyleSheet.create({
   searchBarContainer: {
