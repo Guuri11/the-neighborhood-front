@@ -6,7 +6,7 @@ import UIStore from ".";
 
 class LoadingStore implements Resetable {
   @observable
-  loading = false;
+  loading = true;
 
   uiStore!: UIStore;
 
