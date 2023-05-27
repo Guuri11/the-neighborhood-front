@@ -35,7 +35,7 @@ class AppStore implements Resetable {
     this.authorizationStore = new AuthorizationStore(this);
     this.locationStore = new LocationStore(this);
     this.UIStore = new UIStore(this);
-    this.env = "dev";
+    this.env = "prod";
     this.services = [
       {
         name: "authentication",
@@ -63,8 +63,8 @@ class AppStore implements Resetable {
     this.authorizationStore.reset();
     this.locationStore.reset();
     this.UIStore.reset();
-    this.env = "dev";
-    this.services = null;
+    this.env = "prod";
+    this.services = [];
   }
 
   @action setEnv(env: EnvironmentType) {

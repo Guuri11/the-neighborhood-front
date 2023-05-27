@@ -4,10 +4,12 @@ import AppStore from "..";
 import { Resetable } from "../../interfaces/resetable";
 import { getData, removeData, storeData } from "../../../hooks/useAsyncStorage";
 import type { Player } from "../../../../domain/Player/Player";
-import { AuthenticationServiceType } from "../../../../application/AuthenticationService";
+import { AuthenticationService, AuthenticationServiceType } from "../../../../application/AuthenticationService";
 import { AuthenticationRepositoryI } from "../../../../domain/Authentication/AuthenticationRepository";
-import { PlayerServiceType } from "../../../../application/PlayerService";
+import { PlayerService, PlayerServiceType } from "../../../../application/PlayerService";
 import { PlayerRepositoryI } from "../../../../domain/Player/PlayerRepository";
+import { AuthenticationRepository } from "../../../../infrastructure/repositories/Authentication/AuthenticationRepository";
+import { PlayerRepository } from "../../../../infrastructure/repositories/Player/PlayerRepository";
 
 class AuthenticationStore implements Resetable {
   appStore!: AppStore;
@@ -23,16 +25,20 @@ class AuthenticationStore implements Resetable {
   constructor(app: AppStore) {
     makeAutoObservable(this);
     this.appStore = app;
-    this.service = this.appStore.getService("authentication").service as AuthenticationServiceType;
-    this.repository = this.appStore.getService("authentication").repository as AuthenticationRepositoryI;
-    this.playerService = this.appStore.getService("player").service as PlayerServiceType;
-    this.playerRepository = this.appStore.getService("player").repository as PlayerRepositoryI;
+    this.service = AuthenticationService;
+    this.repository = AuthenticationRepository;
+    this.playerService = PlayerService;
+    this.playerRepository = PlayerRepository;
   }
 
   reset(): void {
     this.user = null;
     this.token = null;
     this.isAuthenticated = false;
+    this.service = null;
+    this.repository = null;
+    this.playerService = null;
+    this.playerRepository = null;
   }
 
   @action setToken(token: string) {

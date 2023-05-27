@@ -6,7 +6,7 @@ import CustomInput from "../../../../../../design/common/Form/CustomInput";
 import Heading from "../../../../../../design/common/Heading";
 import { StyleSheet, View } from "react-native";
 import { useTranslation } from "react-i18next";
-import "../../../../../../../../services/locales/index";
+import "../../../../../../../../infrastructure/locales/index";
 import { FormData, StepProps } from "../../PlayerCreation";
 
 export type VitalsData = {
