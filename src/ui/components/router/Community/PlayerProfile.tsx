@@ -34,8 +34,6 @@ const PlayerProfile = observer(({ route, navigation }: any) => {
       });
   }, [playerId]);
 
-  console.log(player);
-
   return (
     <Template>
       <View>
