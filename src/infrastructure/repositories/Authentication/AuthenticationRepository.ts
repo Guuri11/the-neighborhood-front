@@ -27,10 +27,7 @@ const login = async (
     return { status: response.status, response: response.json() };
   });
 
-const logout = () => console.log('logout');
-
 export const AuthenticationRepository: AuthenticationRepositoryI = {
     login,
-    register,
-    logout,
+    register
 }

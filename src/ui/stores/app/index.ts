@@ -13,6 +13,9 @@ import { AuthenticationService } from "../../../application/AuthenticationServic
 import { PlayerService } from "../../../application/PlayerService";
 import { CareerHistoryService } from "../../../application/CareerHistoryService";
 import * as types from "../../../application/types";
+import { AuthenticationLocalRepository } from "../../../infrastructure/repositories/Authentication/AuthenticationAsyncStorageRepository";
+import { PlayerLocalRepository } from "../../../infrastructure/repositories/Player/PlayerAsyncStorageRepository";
+import { CareerHistoryLocalRepository } from "../../../infrastructure/repositories/CareerHistory/CareerHistoryAsyncStorageRepository";
 
 type EnvironmentType = "dev" | "prod";
 type ServicesDIType = {
@@ -35,7 +38,7 @@ class AppStore implements Resetable {
     this.authorizationStore = new AuthorizationStore(this);
     this.locationStore = new LocationStore(this);
     this.UIStore = new UIStore(this);
-    this.env = "prod";
+    this.env = "dev";
     this.services = [
       {
         name: "authentication",
@@ -44,10 +47,22 @@ class AppStore implements Resetable {
         repository: AuthenticationRepository
       },
       {
+        name: "authentication",
+        service: AuthenticationService,
+        env: "dev",
+        repository: AuthenticationLocalRepository
+      },
+      {
         name: "player",
         service: PlayerService,
         env: "prod",
         repository: PlayerRepository
+      },
+      {
+        name: "player",
+        service: PlayerService,
+        env: "dev",
+        repository: PlayerLocalRepository
       },
       {
         name: "careerHistory",
@@ -55,6 +70,12 @@ class AppStore implements Resetable {
         env: "prod",
         repository: CareerHistoryRepository
       },
+      {
+        name: "careerHistory",
+        service: CareerHistoryService,
+        env: "dev",
+        repository: CareerHistoryLocalRepository
+      }
     ];
   }
 
@@ -63,7 +84,7 @@ class AppStore implements Resetable {
     this.authorizationStore.reset();
     this.locationStore.reset();
     this.UIStore.reset();
-    this.env = "prod";
+    this.env = "dev";
     this.services = [];
   }
 

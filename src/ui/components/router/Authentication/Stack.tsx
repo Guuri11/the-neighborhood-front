@@ -21,9 +21,9 @@ export const AuthenticationStack = observer(() => {
       setInitialRoute("OnBoarding");
     } else if (authorizationStore.firstTime === "1") {
       if (!authenticationStore.user?.email) {
-        setInitialRoute("SignUp");
-      } else {
         setInitialRoute("PlayerCreation");
+      } else {
+        setInitialRoute("SignUp");
       }
     } else if (!authenticationStore.isAuthenticated) {
       setInitialRoute("SignIn");

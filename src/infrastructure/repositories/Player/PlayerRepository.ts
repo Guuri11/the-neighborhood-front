@@ -42,7 +42,7 @@ const getPlayers = async (token: string): Promise<Player[] | any> =>
     },
   }).then((response) => response.json());
 
-const getOne = async (playerId: string, { token }: OptionsInfraType): Promise<Archetype | any> =>
+const getOne = async (playerId: number, { token }: OptionsInfraType): Promise<Player | any> =>
   fetch(`${path}/${playerId}`, {
     method: "GET",
     headers: {

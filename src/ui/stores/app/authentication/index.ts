@@ -10,6 +10,8 @@ import { PlayerService, PlayerServiceType } from "../../../../application/Player
 import { PlayerRepositoryI } from "../../../../domain/Player/PlayerRepository";
 import { AuthenticationRepository } from "../../../../infrastructure/repositories/Authentication/AuthenticationRepository";
 import { PlayerRepository } from "../../../../infrastructure/repositories/Player/PlayerRepository";
+import { PlayerLocalRepository } from "../../../../infrastructure/repositories/Player/PlayerAsyncStorageRepository";
+import { AuthenticationLocalRepository } from "../../../../infrastructure/repositories/Authentication/AuthenticationAsyncStorageRepository";
 
 class AuthenticationStore implements Resetable {
   appStore!: AppStore;
@@ -26,9 +28,9 @@ class AuthenticationStore implements Resetable {
     makeAutoObservable(this);
     this.appStore = app;
     this.service = AuthenticationService;
-    this.repository = AuthenticationRepository;
+    this.repository = app.env === "prod" ? AuthenticationRepository : AuthenticationLocalRepository;
     this.playerService = PlayerService;
-    this.playerRepository = PlayerRepository;
+    this.playerRepository = app.env === "prod" ? PlayerRepository : PlayerLocalRepository;
   }
 
   reset(): void {
@@ -42,13 +44,14 @@ class AuthenticationStore implements Resetable {
   }
 
   @action setToken(token: string) {
-    this.token = token;
-    storeData("token", token);
+    if (token) {
+      this.token = token;
+      storeData("token", token);
+    }
   }
 
   @action setUser(user: Player) {
     this.user = user;
-    this.isAuthenticated = user && user.nickname ? true : false;
   }
 
   @action setIsAuthenticated(authenticated: boolean) {
@@ -69,7 +72,6 @@ class AuthenticationStore implements Resetable {
           return;
         }
 
-
         this.setToken((await loginResult.response).token);
       } else {
         this.isAuthenticated = false;
@@ -84,6 +86,7 @@ class AuthenticationStore implements Resetable {
       const userResult = await this.playerService.me(this.playerRepository, this.token);
       if (userResult?.email) {
         this.setUser(userResult);
+        this.setIsAuthenticated(userResult && userResult.nickname);
         return;
       }
       this.login();

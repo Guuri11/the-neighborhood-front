@@ -98,6 +98,7 @@ const Archetype = observer(({ formData }: Props) => {
 
   const onSubmit = () => {
     authorizationStore.setIsFirstTime("0");
+    authenticationStore.setIsAuthenticated(true);
     uiStore.notification.addNotification("Congrats, you've been registered", "success");
   };
 

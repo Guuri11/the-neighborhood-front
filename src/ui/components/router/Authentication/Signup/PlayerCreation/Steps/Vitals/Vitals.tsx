@@ -45,7 +45,7 @@ const Vitals = ({ setStep, setFormData, formData }: Props) => {
     setFormData({
       ...formData,
       userName: data.userName,
-      birthDate: data.birthDate,
+      birthDate: data.birthDate.toString(),
       gender: data.gender,
     });
     setStep("body_settings");

@@ -3,5 +3,4 @@ import { AuthenticationRequest, AuthenticationResponse, RegisterRequest, Registe
 export interface AuthenticationRepositoryI {
     login: (request: AuthenticationRequest) => Promise<AuthenticationResponse | any>;
     register: (request: RegisterRequest) => Promise<RegisterResponse | any>;
-    logout: () => void;
 }

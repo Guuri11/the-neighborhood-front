@@ -7,13 +7,14 @@ import { View } from "react-native";
 import CustomInput from "../../../design/common/Form/CustomInput";
 import { useForm } from "react-hook-form";
 import { Button, CheckBox, Text } from "@rneui/themed";
-import { PRIMARY_COLOR } from "../../../../assets/colors";
+import { GRAY_COLOR, PRIMARY_COLOR } from "../../../../assets/colors";
 import { useMutation } from "@tanstack/react-query";
 import { useAppStore, useAuthenticationStore, useUIStore } from "../../../../hooks/store";
 import { RegisterResponse } from "../../../../../domain/Authentication/authentication";
 import { storeData } from "../../../../hooks/useAsyncStorage";
 import { AuthenticationServiceType } from "../../../../../application/AuthenticationService";
 import { AuthenticationRepositoryI } from "../../../../../domain/Authentication/AuthenticationRepository";
+import { observer } from "mobx-react-lite";
 
 type SignUpData = {
   name: string;
@@ -22,7 +23,7 @@ type SignUpData = {
   confirmPassword: string;
 };
 
-const Signup = () => {
+const Signup = observer(({navigation}: any) => {
   const appStore = useAppStore()
   const { t } = useTranslation();
   const [checked, setChecked] = useState(false);
@@ -50,6 +51,7 @@ const Signup = () => {
     if (response.status < 400) {
       authenticationStore.setToken((await response.response).token);
       authenticationStore.getSelf();
+      navigation.navigate("PlayerCreation")
     } else {
       // TODO: handle this
       uiStore.notification.addNotification("Server error", "error");
@@ -124,11 +126,12 @@ const Signup = () => {
           checked={checked}
           onPress={() => setChecked(!checked)}
           checkedColor={PRIMARY_COLOR}
+          containerStyle={{backgroundColor: "#f2f2f2"}}
         />
         <Button onPress={handleSubmit(sendData)}>{t("send")}</Button>
       </View>
     </Template>
   );
-};
+});
 
 export default Signup;

@@ -59,7 +59,6 @@ const SignIn = () => {
       authenticationStore.getSelf();
     } else {
       uiStore.notification.addNotification("Unhandled error", "error");
-      console.log(authenticationResponse.response);
     }
   };
   return (
